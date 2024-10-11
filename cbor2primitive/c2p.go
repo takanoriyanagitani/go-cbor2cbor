@@ -82,6 +82,8 @@ var CborToAnyFromByteMap map[byte]CborToAny = map[byte]CborToAny{
 	'I': CborToPrimitive[uint32](CborToUint32BE).ToConverter(),
 	'Q': CborToPrimitive[uint64](CborToUint64BE).ToConverter(),
 
+	'u': CborToPrimitive[[2]uint64](CborToUuidPair).ToConverter(),
+
 	'h': CborToPrimitive[int16](CborToInt16BE).ToConverter(),
 	'i': CborToPrimitive[int32](CborToInt32BE).ToConverter(),
 	'q': CborToPrimitive[int64](CborToInt64BE).ToConverter(),
