@@ -95,6 +95,8 @@ func (l2d LongToDouble) ToAnyL() PrimitiveToPrimitiveA {
 			return l2d(ctx, input)
 		case uint64:
 			return l2d(ctx, int64(input))
+		case float64:
+			return l2d(ctx, int64(input))
 		default:
 			return 0, fmt.Errorf(
 				"expected int32 or int64 or uint64. got=%v: %w",
