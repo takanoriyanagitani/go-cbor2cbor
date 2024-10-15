@@ -210,6 +210,12 @@ func (c Converters) ConvertAll(
 			continue
 		}
 
+		if nil == input {
+			var output any = nil
+			*buf = append(*buf, output)
+			continue
+		}
+
 		output, e := cnv(ctx, input)
 		if nil != e {
 			return e

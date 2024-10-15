@@ -47,8 +47,20 @@ func (c CborToArrayToMapdToCbor) ConvertAll(ctx context.Context) error {
 		default:
 		}
 
+		// reset each items
+		for i := range ibuf {
+			ibuf[i] = nil
+		}
+
+		// reset each items
+		for i := range obuf {
+			obuf[i] = nil
+		}
+
+		// these not reset each items
 		ibuf = ibuf[:0]
 		obuf = obuf[:0]
+
 		e := c.Convert(ctx, &ibuf, &obuf)
 		if nil != e {
 			if !errors.Is(e, io.EOF) {
