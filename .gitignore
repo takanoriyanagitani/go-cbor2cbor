@@ -25,3 +25,4 @@ go.work.sum
 .env
 *.swp
 cmd/bytes2primitive/bytes2primitive
+cmd/primitive2primitive/wasm/wazero/simple/simple
