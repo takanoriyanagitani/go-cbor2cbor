@@ -3,6 +3,7 @@ package cbor2primitive
 import (
 	"context"
 	"log"
+	"time"
 )
 
 type CborToAny func(context.Context, []byte) (any, error)
@@ -83,6 +84,8 @@ var CborToAnyFromByteMap map[byte]CborToAny = map[byte]CborToAny{
 	'Q': CborToPrimitive[uint64](CborToUint64BE).ToConverter(),
 
 	'u': CborToPrimitive[[2]uint64](CborToUuidPair).ToConverter(),
+
+	't': CborToPrimitive[time.Time](CborToUnixtimeSecondsFloatBE).ToConverter(),
 
 	'h': CborToPrimitive[int16](CborToInt16BE).ToConverter(),
 	'i': CborToPrimitive[int32](CborToInt32BE).ToConverter(),
