@@ -13,8 +13,8 @@
   },
   {
     "index": 1,
-    "module": "mul2double.wasm",
-    "name": "mul6f",
-    "typ": "FloatToFloat64"
+    "module": "identity.wasm",
+    "name": "double2double",
+    "typ": "TimeFromUnixtime"
   }
 ]

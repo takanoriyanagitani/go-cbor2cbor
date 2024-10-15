@@ -22,6 +22,16 @@ import (
 	z2p "github.com/takanoriyanagitani/go-cbor2cbor/primitive2primitive/wasm/wazero"
 )
 
+var timeModeMap map[string]fa.TimeMode = map[string]fa.TimeMode{
+	"TimeUnix":        fa.TimeUnix,
+	"TimeUnixMicro":   fa.TimeUnixMicro,
+	"TimeUnixDynamic": fa.TimeUnixDynamic,
+	"TimeRFC3339":     fa.TimeRFC3339,
+	"TimeRFC3339Nano": fa.TimeRFC3339Nano,
+}
+
+var timeModeEnv fa.TimeMode = timeModeMap[os.Getenv("ENV_CBOR_TIME_MODE")]
+
 type app struct {
 	w2p.IndexToFunction
 	c2a.CborToArray
@@ -73,6 +83,7 @@ func rdr2wtrMust(
 	var parse c2a.CborToArray = c2aa.CborToArrNew(rdr).AsConverter()
 
 	var opts fa.EncOptions = fa.CanonicalEncOptions()
+	opts.Time = timeModeEnv
 	ser, e := a2ca.ArrToCborFromOpts(opts)(wtr)
 	if nil != e {
 		return e

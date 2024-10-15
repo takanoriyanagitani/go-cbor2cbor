@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	wz "github.com/tetratelabs/wazero"
 	wa "github.com/tetratelabs/wazero/api"
@@ -47,6 +48,9 @@ func (r RawCaller) ToConverter(typ any) p2p.PrimitiveToPrimitiveA {
 	case p2p.FloatToFloat64:
 		var cnv p2p.FloatToFloat64 = r.ToFloatToFloat64()
 		return cnv.ToAnyD()
+	case p2p.TimeFromUnixtime:
+		var cnv p2p.TimeFromUnixtime = r.ToFloatToFloatToTime()
+		return cnv.ToAnyT()
 	case p2p.LongToDouble:
 		var cnv p2p.LongToDouble = r.ToLongToDouble()
 		return cnv.ToAnyL()
@@ -143,6 +147,21 @@ func (r RawCaller) ToFloatToFloat64() p2p.FloatToFloat64 {
 			return 0, e
 		}
 		return wa.DecodeF64(u), nil
+	}
+}
+
+// Converts float64 -> float64(unixtime seconds) -> [time.Time]
+func (r RawCaller) ToFloatToFloatToTime() p2p.TimeFromUnixtime {
+	return func(ctx context.Context, i float64) (time.Time, error) {
+		var input uint64 = wa.EncodeF64(i)
+		u, e := r.Single(ctx, input)
+		if nil != e {
+			return time.Time{}, e
+		}
+		var unixtimeSeconds float64 = wa.DecodeF64(u)
+		var unixtimeUs float64 = unixtimeSeconds * 1e6
+		var usec int64 = int64(unixtimeUs)
+		return time.UnixMicro(usec), nil
 	}
 }
 

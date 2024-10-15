@@ -50,6 +50,27 @@ type LongToDouble PrimitiveToPrimitive[int64, float64]
 
 type TimeFromUnixtime PrimitiveToPrimitive[float64, time.Time]
 
+func (f2t TimeFromUnixtime) ToAnyT() PrimitiveToPrimitiveA {
+	return func(ctx context.Context, i any) (any, error) {
+		switch input := i.(type) {
+		case float32:
+			return f2t(ctx, float64(input))
+		case float64:
+			return f2t(ctx, input)
+		case int64:
+			return f2t(ctx, float64(input))
+		case uint64:
+			return f2t(ctx, float64(input))
+		default:
+			return 0, fmt.Errorf(
+				"expected float32 or float64 or int64 or uint64. got=%v: %w",
+				input,
+				ErrInvalidArgument,
+			)
+		}
+	}
+}
+
 func (i2i IntToInt32) ToAnyI() PrimitiveToPrimitiveA {
 	return func(ctx context.Context, i any) (any, error) {
 		switch input := i.(type) {
