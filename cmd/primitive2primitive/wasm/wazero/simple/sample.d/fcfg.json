@@ -1,0 +1,20 @@
+[
+  {
+    "index": 0,
+    "module": "long2double.wasm",
+    "name": "i6f6",
+    "typ": "LongToDouble"
+  },
+  {
+    "index": 3,
+    "module": "add2long.wasm",
+    "name": "add6i",
+    "typ": "IntToInt64"
+  },
+  {
+    "index": 1,
+    "module": "mul2double.wasm",
+    "name": "mul6f",
+    "typ": "FloatToFloat64"
+  }
+]
