@@ -1,6 +1,8 @@
 package arr2cbor
 
 import (
+	"bytes"
+	"context"
 	"io"
 
 	fa "github.com/fxamacker/cbor/v2"
@@ -35,5 +37,15 @@ func ArrToCborFromOpts(opts fa.EncOptions) func(io.Writer) (ArrToCbor, error) {
 			return ArrToCbor{}, e
 		}
 		return ArrToCborNew(mode)(wtr), nil
+	}
+}
+
+type AnyToCborToBuf func(any, *bytes.Buffer) error
+
+var AnyToCborToBufDefault AnyToCborToBuf = fa.MarshalToBuffer
+
+func (b AnyToCborToBuf) ToArrayToCborToBuffer() a2c.ArrayToCborToBuffer {
+	return func(_ context.Context, arr []any, buf *bytes.Buffer) error {
+		return b(arr, buf)
 	}
 }
