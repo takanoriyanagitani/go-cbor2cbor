@@ -1,8 +1,12 @@
 #!/bin/sh
 
 export ENV_WASM_BYTES_MAX=16777216
+
 export ENV_WASM_MODULES_DIR=./modules.d/copy/rs-copy
 export ENV_WASM_FILENAME=rs_copy.wasm
+
+export ENV_WASM_MODULES_DIR=./modules.d/copy/rs-serialized-parsed
+export ENV_WASM_FILENAME=rs_serialized_parsed.wasm
 
 jq \
 	-c \
